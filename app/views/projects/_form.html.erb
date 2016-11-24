@@ -1,0 +1,26 @@
+<%= simple_form_for(@project) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.input :description %>
+  </div>
+  <h3>Tasks for this project:</h3>
+  <% if @project.errors.messages[:tasks].any? %>
+    <div class="text-danger text-center">
+      <%= @project.errors.messages[:tasks].join(', ') %>
+    </div>
+  <% end %>
+  <div id="tasks">
+    <%= f.simple_fields_for :tasks do |task| %>
+      <%= render 'task_fields', f: task %>
+    <% end %>
+    <div class="links">
+      <%= link_to_add_association 'add task', f, :tasks %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
